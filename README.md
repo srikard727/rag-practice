@@ -1,0 +1,1 @@
+This repo is to help me understand how the whole system of RAG works. 
