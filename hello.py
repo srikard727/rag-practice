@@ -7,7 +7,14 @@ documents = [
 
 def chunk_text(text, chunk_size):
     words = text.split()
-    print(words)
+    chunks = []
+
+    for n in range(0, len(words), chunk_size):
+        word_group = words[n:n + chunk_size]
+        chunk = " ".join(word_group)
+        chunks.append(chunk)
+
+    return chunks
 
 
 def main():
