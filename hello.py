@@ -17,13 +17,21 @@ def chunk_text(text, chunk_size):
     return chunks
 
 
+def build_chunks(documents, chunk_size):
+    all_chunks = []
+
+    for document in documents:
+        chunks = chunk_text(document, chunk_size)
+        all_chunks.extend(chunks)
+
+    return all_chunks
+
+
 def main():
-    sample_text = documents[0]
+    all_chunks = build_chunks(documents, 5)
 
-    chunks = chunk_text(sample_text, 5)
-
-    print(chunks)
+    print(all_chunks)
 
 
 if __name__ == "__main__":
-    main()  
+    main()
