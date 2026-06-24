@@ -1,8 +1,20 @@
+import string
+
+
 documents = [
     "RAG means retrieval augmented generation...",
     "Embeddings turn text into numbers...",
     "A vector database stores embeddings..."
 ]
+
+
+def clean_text(text):
+    text = text.lower()
+
+    for punctuation in string.punctuation:
+        text = text.replace(punctuation, "")
+
+    return text
 
 
 def chunk_text(text, chunk_size):
@@ -26,13 +38,14 @@ def build_chunks(documents, chunk_size):
 
     return all_chunks
 
+
 def retrieve_chunks(query, chunks, top_k=2):
-    query_words = set(query.lower().split())
+    query_words = set(clean_text(query).split())
 
     scored_chunks = []
 
     for chunk in chunks:
-        chunk_words = set(chunk.lower().split())
+        chunk_words = set(clean_text(chunk).split())
 
         matching_words = query_words.intersection(chunk_words)
 
@@ -45,8 +58,6 @@ def retrieve_chunks(query, chunks, top_k=2):
     top_chunks = scored_chunks[:top_k]
 
     return top_chunks
-
-
 
 
 def main():
