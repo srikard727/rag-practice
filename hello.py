@@ -26,11 +26,37 @@ def build_chunks(documents, chunk_size):
 
     return all_chunks
 
+def retrieve_chunks(query, chunks, top_k=2):
+    query_words = set(query.lower().split())
+
+    scored_chunks = []
+
+    for chunk in chunks:
+        chunk_words = set(chunk.lower().split())
+
+        matching_words = query_words.intersection(chunk_words)
+
+        score = len(matching_words)
+
+        scored_chunks.append((score, chunk))
+
+    scored_chunks.sort(reverse=True)
+
+    top_chunks = scored_chunks[:top_k]
+
+    return top_chunks
+
+
+
 
 def main():
     all_chunks = build_chunks(documents, 5)
 
-    print(all_chunks)
+    query = "What are embeddings?"
+
+    results = retrieve_chunks(query, all_chunks)
+
+    print(results)
 
 
 if __name__ == "__main__":
