@@ -1,4 +1,5 @@
 import string
+from collections import Counter
 
 
 documents = [
@@ -40,16 +41,17 @@ def build_chunks(documents, chunk_size):
 
 
 def retrieve_chunks(query, chunks, top_k=2):
-    query_words = set(clean_text(query).split())
+    query_words = Counter(clean_text(query).split())
 
     scored_chunks = []
 
     for chunk in chunks:
-        chunk_words = set(clean_text(chunk).split())
+        chunk_words = Counter(clean_text(chunk).split())
 
-        matching_words = query_words.intersection(chunk_words)
+        score = 0
 
-        score = len(matching_words)
+        for word in query_words:
+            score += min(query_words[word], chunk_words[word])
 
         scored_chunks.append((score, chunk))
 
